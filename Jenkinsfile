@@ -14,15 +14,14 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                sh 'chmod +x mvnw || true'
-                sh './mvnw clean test package -DskipTests=false'
+                bat 'mvnw.cmd clean test package -DskipTests=false'
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$BUILD_NUMBER .'
-                sh 'docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest'
+                bat 'docker build -t %IMAGE_NAME%:%BUILD_NUMBER% .'
+                bat 'docker tag %IMAGE_NAME%:%BUILD_NUMBER% %IMAGE_NAME%:latest'
             }
         }
 
@@ -33,9 +32,9 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-                    sh 'docker push $IMAGE_NAME:$BUILD_NUMBER'
-                    sh 'docker push $IMAGE_NAME:latest'
+                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    bat 'docker push %IMAGE_NAME%:%BUILD_NUMBER%'
+                    bat 'docker push %IMAGE_NAME%:latest'
                 }
             }
         }

@@ -1,62 +1,87 @@
 # Automated CI/CD Pipeline for a Containerized Web Application
 
-A fresher-friendly DevOps project demonstrating CI/CD with GitHub, Jenkins, Maven, Docker, Docker Hub, and AWS EC2.
+A fresher-friendly DevOps project demonstrating an automated CI/CD pipeline for a Java Spring Boot application using GitHub, Jenkins, Maven, Docker, Docker Hub, and AWS EC2.
 
 ## Architecture
 
-GitHub -> Jenkins -> Maven Build/Test -> Docker Image -> Docker Hub -> AWS EC2
+GitHub → Jenkins → Maven Build & Test → Docker Build → Docker Hub → AWS EC2
 
 ## Technologies
 
 - Java 17
 - Spring Boot
 - Maven
-- Git/GitHub
+- Git & GitHub
 - Jenkins
 - Docker
 - Docker Hub
 - AWS EC2
 - Linux
-- Shell scripting
+- Shell Scripting
 
-## Application Endpoints
+## Application
 
-- `/` - CI/CD success message
-- `/health` - health check
+This project is a simple Spring Boot web application created to demonstrate a complete DevOps CI/CD workflow.
 
-## Local Run
+### Application Endpoints
+
+- `/` - Displays a CI/CD success message
+- `/health` - Application health check
+
+## Local Setup
+
+Clone the repository:
 
 ```bash
-./mvnw clean test package
+git clone https://github.com/Goutham5525/jenkins-cicd.git
+cd jenkins-cicd
+```
+---
+*Build and test the application:
+mvn clean test package
+
+*Run the application:
 java -jar target/cicd-demo-0.0.1-SNAPSHOT.jar
-```
 
-Open `http://localhost:8080`
+*Open:
+http://localhost:8080
 
-## Docker
+*Health check:
+http://localhost:8080/health
 
-```bash
-./mvnw clean package
+---
+
+*Build the Docker image:
+mvn clean package
 docker build -t cicd-demo .
-docker run -p 8080:8080 cicd-demo
+
+*open:
+http://localhost:8080
+
+---
+***Jenkins Credentials
+Create a Jenkins credential for Docker Hub with:
+Credential ID: dockerhub-credentials
+
+---
+**CI/CD Workflow
+
+```
+Developer
+   ↓
+GitHub
+   ↓
+Jenkins
+   ↓
+Maven Build & Test
+   ↓
+Docker Image Build
+   ↓
+Docker Hub
+   ↓
+AWS EC2
+   ↓
+Containerized Application
+
 ```
 
-## Jenkins
-
-The Jenkinsfile defines stages for:
-
-1. Checkout
-2. Build and Test
-3. Docker Build
-4. Push to Docker Hub
-5. Deployment
-
-Before running the pipeline, replace `YOUR_DOCKERHUB_USERNAME` in the Jenkinsfile and configure a Jenkins credential with ID `dockerhub-credentials`.
-
-## Resume Project Title
-
-Automated CI/CD Pipeline for a Containerized Web Application
-
-## Resume Description
-
-Built an automated CI/CD pipeline using Jenkins and GitHub to build, test, containerize, and prepare deployment of a Java Spring Boot application. Integrated Maven for build and testing, Docker for containerization, Docker Hub for image management, and AWS EC2 as the target deployment environment.
